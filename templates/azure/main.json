@@ -1,0 +1,211 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "metadata": {
+    "_generator": {
+      "name": "bicep",
+      "version": "0.16.2.56959",
+      "templateHash": "2661910328664466170"
+    }
+  },
+  "parameters": {
+    "provisionParameters": {
+      "type": "secureObject"
+    }
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2022-09-01",
+      "name": "provisionResources",
+      "properties": {
+        "expressionEvaluationOptions": {
+          "scope": "inner"
+        },
+        "mode": "Incremental",
+        "parameters": {
+          "provisionParameters": {
+            "value": "[parameters('provisionParameters')]"
+          }
+        },
+        "template": {
+          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+          "contentVersion": "1.0.0.0",
+          "metadata": {
+            "_generator": {
+              "name": "bicep",
+              "version": "0.16.2.56959",
+              "templateHash": "12770585341248107065"
+            }
+          },
+          "parameters": {
+            "provisionParameters": {
+              "type": "secureObject"
+            }
+          },
+          "resources": [
+            {
+              "type": "Microsoft.Resources/deployments",
+              "apiVersion": "2022-09-01",
+              "name": "frontendHostingProvision",
+              "properties": {
+                "expressionEvaluationOptions": {
+                  "scope": "inner"
+                },
+                "mode": "Incremental",
+                "parameters": {
+                  "provisionParameters": {
+                    "value": "[parameters('provisionParameters')]"
+                  }
+                },
+                "template": {
+                  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+                  "contentVersion": "1.0.0.0",
+                  "metadata": {
+                    "_generator": {
+                      "name": "bicep",
+                      "version": "0.16.2.56959",
+                      "templateHash": "2434785313870267880"
+                    }
+                  },
+                  "parameters": {
+                    "provisionParameters": {
+                      "type": "secureObject"
+                    }
+                  },
+                  "variables": {
+                    "resourceBaseName": "[parameters('provisionParameters').resourceBaseName]",
+                    "storageName": "[if(contains(parameters('provisionParameters'), 'frontendHostingStorageName'), parameters('provisionParameters').frontendHostingStorageName, format('{0}tab', variables('resourceBaseName')))]",
+                    "storageSku": "[if(contains(parameters('provisionParameters'), 'frontendHostingStorageSku'), parameters('provisionParameters').frontendHostingStorageSku, 'Standard_LRS')]"
+                  },
+                  "resources": [
+                    {
+                      "type": "Microsoft.Storage/storageAccounts",
+                      "apiVersion": "2021-06-01",
+                      "name": "[variables('storageName')]",
+                      "kind": "StorageV2",
+                      "location": "[resourceGroup().location]",
+                      "properties": {
+                        "supportsHttpsTrafficOnly": true
+                      },
+                      "sku": {
+                        "name": "[variables('storageSku')]"
+                      }
+                    }
+                  ],
+                  "outputs": {
+                    "resourceId": {
+                      "type": "string",
+                      "value": "[resourceId('Microsoft.Storage/storageAccounts', variables('storageName'))]"
+                    },
+                    "endpoint": {
+                      "type": "string",
+                      "value": "[format('https://{0}', replace(replace(reference(resourceId('Microsoft.Storage/storageAccounts', variables('storageName')), '2021-06-01').primaryEndpoints.web, 'https://', ''), '/', ''))]"
+                    },
+                    "domain": {
+                      "type": "string",
+                      "value": "[replace(replace(reference(resourceId('Microsoft.Storage/storageAccounts', variables('storageName')), '2021-06-01').primaryEndpoints.web, 'https://', ''), '/', '')]"
+                    },
+                    "indexPath": {
+                      "type": "string",
+                      "value": "/index.html#"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "type": "Microsoft.Resources/deployments",
+              "apiVersion": "2022-09-01",
+              "name": "userAssignedIdentityProvision",
+              "properties": {
+                "expressionEvaluationOptions": {
+                  "scope": "inner"
+                },
+                "mode": "Incremental",
+                "parameters": {
+                  "provisionParameters": {
+                    "value": "[parameters('provisionParameters')]"
+                  }
+                },
+                "template": {
+                  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+                  "contentVersion": "1.0.0.0",
+                  "metadata": {
+                    "_generator": {
+                      "name": "bicep",
+                      "version": "0.16.2.56959",
+                      "templateHash": "11784513649570118030"
+                    }
+                  },
+                  "parameters": {
+                    "provisionParameters": {
+                      "type": "secureObject"
+                    }
+                  },
+                  "variables": {
+                    "resourceBaseName": "[parameters('provisionParameters').resourceBaseName]",
+                    "identityName": "[if(contains(parameters('provisionParameters'), 'userAssignedIdentityName'), parameters('provisionParameters').userAssignedIdentityName, format('{0}', variables('resourceBaseName')))]"
+                  },
+                  "resources": [
+                    {
+                      "type": "Microsoft.ManagedIdentity/userAssignedIdentities",
+                      "apiVersion": "2018-11-30",
+                      "name": "[variables('identityName')]",
+                      "location": "[resourceGroup().location]"
+                    }
+                  ],
+                  "outputs": {
+                    "identityName": {
+                      "type": "string",
+                      "value": "[variables('identityName')]"
+                    },
+                    "identityClientId": {
+                      "type": "string",
+                      "value": "[reference(resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', variables('identityName')), '2018-11-30').clientId]"
+                    },
+                    "identityResourceId": {
+                      "type": "string",
+                      "value": "[resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', variables('identityName'))]"
+                    },
+                    "identityPrincipalId": {
+                      "type": "string",
+                      "value": "[reference(resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', variables('identityName')), '2018-11-30').principalId]"
+                    }
+                  }
+                }
+              }
+            }
+          ],
+          "outputs": {
+            "frontendHostingOutput": {
+              "type": "object",
+              "value": {
+                "teamsFxPluginId": "fx-resource-frontend-hosting",
+                "domain": "[reference(resourceId('Microsoft.Resources/deployments', 'frontendHostingProvision'), '2022-09-01').outputs.domain.value]",
+                "endpoint": "[reference(resourceId('Microsoft.Resources/deployments', 'frontendHostingProvision'), '2022-09-01').outputs.endpoint.value]",
+                "indexPath": "[reference(resourceId('Microsoft.Resources/deployments', 'frontendHostingProvision'), '2022-09-01').outputs.indexPath.value]",
+                "storageResourceId": "[reference(resourceId('Microsoft.Resources/deployments', 'frontendHostingProvision'), '2022-09-01').outputs.resourceId.value]"
+              }
+            },
+            "identityOutput": {
+              "type": "object",
+              "value": {
+                "teamsFxPluginId": "fx-resource-identity",
+                "identityName": "[reference(resourceId('Microsoft.Resources/deployments', 'userAssignedIdentityProvision'), '2022-09-01').outputs.identityName.value]",
+                "identityResourceId": "[reference(resourceId('Microsoft.Resources/deployments', 'userAssignedIdentityProvision'), '2022-09-01').outputs.identityResourceId.value]",
+                "identityClientId": "[reference(resourceId('Microsoft.Resources/deployments', 'userAssignedIdentityProvision'), '2022-09-01').outputs.identityClientId.value]"
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "outputs": {
+    "provisionOutput": {
+      "type": "object",
+      "value": "[reference(resourceId('Microsoft.Resources/deployments', 'provisionResources'), '2022-09-01')]"
+    }
+  }
+}

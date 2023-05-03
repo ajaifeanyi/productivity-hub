@@ -1,0 +1,39 @@
+{
+    "solution": {
+        "provisionSucceeded": true,
+        "teamsAppTenantId": "5d2e66da-54ba-4897-82ee-60eeb8ce5994",
+        "subscriptionId": "12f85a4e-0823-4955-a2ed-b505e0332658",
+        "subscriptionName": "Visual Studio Enterprise Subscription – ACS",
+        "tenantId": "0b60fed4-5fc9-409d-95f2-271114f4c86f",
+        "needCreateResourceGroup": true,
+        "resourceGroupName": "OneProductivityHub-prod-rg",
+        "location": "East US",
+        "resourceNameSuffix": "5628df"
+    },
+    "fx-resource-appstudio": {
+        "tenantId": "5d2e66da-54ba-4897-82ee-60eeb8ce5994",
+        "teamsAppId": "2dda5887-0871-4ef9-a777-391842321b86"
+    },
+    "fx-resource-aad-app-for-teams": {
+        "clientId": "f4bb817d-0c81-408c-9edd-02af937ddad3",
+        "clientSecret": "{{fx-resource-aad-app-for-teams.clientSecret}}",
+        "objectId": "d926db67-0ab4-4051-81b9-0723ab299e5f",
+        "oauth2PermissionScopeId": "a2d99962-4b9f-4083-a54c-dbf4a12da955",
+        "tenantId": "5d2e66da-54ba-4897-82ee-60eeb8ce5994",
+        "oauthHost": "https://login.microsoftonline.com",
+        "oauthAuthority": "https://login.microsoftonline.com/5d2e66da-54ba-4897-82ee-60eeb8ce5994",
+        "applicationIdUris": "api://oneproductprod1558a3tab.z13.web.core.windows.net/f4bb817d-0c81-408c-9edd-02af937ddad3",
+        "frontendEndpoint": "https://oneproductprod1558a3tab.z13.web.core.windows.net"
+    },
+    "fx-resource-frontend-hosting": {
+        "indexPath": "/index.html#",
+        "domain": "oneproductprod1558a3tab.z13.web.core.windows.net",
+        "endpoint": "https://oneproductprod1558a3tab.z13.web.core.windows.net",
+        "storageResourceId": "/subscriptions/12f85a4e-0823-4955-a2ed-b505e0332658/resourceGroups/OneProductivityHub-prod-rg/providers/Microsoft.Storage/storageAccounts/oneproductprod1558a3tab"
+    },
+    "fx-resource-identity": {
+        "identityName": "oneproductprod1558a3",
+        "identityResourceId": "/subscriptions/12f85a4e-0823-4955-a2ed-b505e0332658/resourceGroups/OneProductivityHub-prod-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/oneproductprod1558a3",
+        "identityClientId": "045c5c4e-3e67-49cc-a29d-79ad880cc17f"
+    }
+}
